@@ -2,7 +2,8 @@ module Sample (
     Season(..),
     Sample(..),
     readSample,
-    seasonNum
+    seasonNum,
+    normalize
 ) where
 
 import Data.String
@@ -29,16 +30,22 @@ readSample s = case words s of
     intToBool 0 = False
     intToBool _ = True
 
-
--- Seasons can be numbered in a number of ways. Author of the original
--- Perceptron included numberings [1..4] and [4,3..1], which seems a little bit
--- strange, as I find numbering starting from 0 more natural. Anyways, original
--- numberings can be obtained from this function as: (seasonNum False 1)
--- and (seasonNum True 1) respectively.
-seasonNum :: Num a => Bool -> Int -> Season -> a
-seasonNum invert from season =
+-- Author of the original program counts seasons from 1 to 4 instead of a more
+-- natural numbering 0-3. However, this does not really matter due to later
+-- normalization. Therefore I preserve original numbering.
+seasonNum :: Num a => Bool -> Season -> a
+seasonNum invert season =
     let seasonNum = if invert
         then 3 - fromEnum season
         else fromEnum season
     in
-    fromIntegral . (+) from . $ mod seasonNum 4
+    fromIntegral . succ $ mod seasonNum 4
+
+-- Given minimum and maximum value in the sample, turn it proportionally into a
+-- number between 0 and 1.
+normalizeSample :: (Ord a, Fractional a) => a -> a -> a -> a
+normalizeSample minVal maxVal val = (val - minVal) / (maxVal - minVal)
+
+normalize :: (Ord a, Fractional a) => [a] -> [a]
+normalize samples =
+        fmap (normalizeSample (minimum samples) (maximum samples)) samples

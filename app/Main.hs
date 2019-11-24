@@ -13,5 +13,14 @@ trainingData =
 
 main :: IO ()
 main = do
-    putStrLn "Welcome to Perceptron!"
-    trainingData >>= (sequence_ . fmap print)
+    putStrLn "Training data:"
+    samples <- trainingData
+    sequence_ $ fmap print samples
+
+    putStrLn "Normalized temperatures:"
+    let temps = fmap temp samples
+    sequence_ . fmap print $ zip temps (normalize temps)
+
+    putStrLn "Normalized seasons:"
+    let seasons = fmap season samples
+    sequence_ . fmap print $ zip seasons (normalize $ fmap (seasonNum False) seasons)
