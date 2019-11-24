@@ -81,8 +81,8 @@ instance Perceptron Sigmoid where
 instance Perceptron BiasedSigmoid where
     learningRate (BiasedSigmoid _ _) = 0.08
     weights (BiasedSigmoid _ ws) = ws
-    activation (BiasedSigmoid bias _) = sigmoidF . (+ bias)
-    derrivative (BiasedSigmoid bias _) = sigmoidF' . (+ bias)
+    activation (BiasedSigmoid bias _) = sigmoidF . (+ (-bias))
+    derrivative (BiasedSigmoid bias _) = sigmoidF' . (+ (-bias))
     updateWeights p@(BiasedSigmoid bias ws) derrivativeOfError inputs =
         BiasedSigmoid
             (bias + (derrivativeOfError * learningRate p))

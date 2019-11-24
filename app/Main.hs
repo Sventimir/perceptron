@@ -47,5 +47,5 @@ main = do
 
     putStrLn "Training data:"
     sequence_ $ fmap print normalized
-    p <- iterateTraining normalized epoch $ sigmoid [(-1), 1]
+    p <- iterateTraining normalized epoch $ biasedSigmoid [(-1), 1]
     return ()
