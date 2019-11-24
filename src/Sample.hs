@@ -8,7 +8,7 @@ module Sample (
 
 import Data.String
 
-data Season = Spring | Summer | Autumn | Winter
+data Season = Summer | Spring | Autumn | Winter
     deriving (Show, Read, Enum)
 
 data Sample a = Sample {

@@ -5,10 +5,14 @@ module Perceptron (
     sigmoid,
     biasedSigmoid,
     bias,
+    sumInputs,
     compute,
+    absoluteError,
     errorFunction,
     train
 ) where
+
+import Data.List (intersperse)
 
 
 class Perceptron p where
@@ -47,7 +51,7 @@ train perceptron inputs expectedResult =
             derrivativeOfActivation = derrivative perceptron $ sumInputs perceptron inputs
             derrivativeOfError = absError * derrivativeOfActivation
         in
-        (updateWeights perceptron derrivativeOfError inputs, (absError ** 2) / 2)
+        (updateWeights perceptron derrivativeOfError inputs, absError)
 
 
 sigmoidF :: Floating a => a -> a
@@ -83,6 +87,12 @@ instance Perceptron BiasedSigmoid where
         BiasedSigmoid
             (bias + (derrivativeOfError * learningRate p))
             (zipWith (-) ws $ fmap ((* derrivativeOfError) . (* learningRate p)) inputs)
+
+instance Show a => Show (Sigmoid a) where
+    show (Sigmoid weights) = concat . intersperse " " $ fmap show weights
+
+instance Show a => Show (BiasedSigmoid a) where
+    show (BiasedSigmoid bias weights) = concat . intersperse " " . fmap show $ weights ++ [bias]
 
 sigmoid :: [a] -> Sigmoid a
 sigmoid = Sigmoid
