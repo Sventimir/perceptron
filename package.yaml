@@ -1,7 +1,7 @@
 name:                perceptron
-version:             0.1.0.0
+version:             1.0.0
 github:              "githubuser/perceptron"
-license:             BSD3
+license:             GPL
 author:              "Sventimir"
 maintainer:          "svantimir@gmail.com"
 copyright:           "2019 Sventimir"
