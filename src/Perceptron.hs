@@ -4,8 +4,10 @@ module Perceptron (
     BiasedSigmoid,
     sigmoid,
     biasedSigmoid,
+    bias,
     compute,
-    errorFunction
+    errorFunction,
+    train
 ) where
 
 
@@ -39,13 +41,13 @@ errorFunction :: (Perceptron p, Floating a) => p a -> [a] -> a -> a
 errorFunction perceptron inputs expectedResult =
         (absoluteError perceptron inputs expectedResult ** 2) / 2
 
-train :: (Perceptron p, Floating a) => p a -> [a] -> a -> p a
+train :: (Perceptron p, Floating a) => p a -> [a] -> a -> (p a, a)
 train perceptron inputs expectedResult =
         let absError = absoluteError perceptron inputs expectedResult
             derrivativeOfActivation = derrivative perceptron $ sumInputs perceptron inputs
             derrivativeOfError = absError * derrivativeOfActivation
         in
-        updateWeights perceptron derrivativeOfError inputs
+        (updateWeights perceptron derrivativeOfError inputs, (absError ** 2) / 2)
 
 
 sigmoidF :: Floating a => a -> a
@@ -59,6 +61,9 @@ sigmoidF' x =
 data Sigmoid a = Sigmoid [a]
 
 data BiasedSigmoid a = BiasedSigmoid a [a]
+
+bias :: BiasedSigmoid a -> a
+bias (BiasedSigmoid b _) = b
 
 instance Perceptron Sigmoid where
     learningRate (Sigmoid _) = 0.08
