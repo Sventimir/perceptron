@@ -1,6 +1,6 @@
 # Perceptron
 
-This is a Haskell reoroduction of the Perceptron program written by
+This is a Haskell reproduction of the Perceptron program written by
 [Głupia Nauka](https://www.facebook.com/Gupia-Nauka-170885267179525/).
 It's purpose is to demonstrate a simple AI training algorithm.
 
