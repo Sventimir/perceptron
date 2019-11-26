@@ -1,4 +1,4 @@
-/* Originally written by Głupia Nauka. This is only included as a reference
+/* Originally written by Gupia Nauka. This is only included as a reference
    program. It yields exactly the same results as the Haskell implementation,
    only less precise due to Doubles used instead of Floats. */
 #include <stdio.h>
